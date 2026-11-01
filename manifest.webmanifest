@@ -1,0 +1,15 @@
+{
+  "name": "Pokédex móvil",
+  "short_name": "Pokédex",
+  "description": "Pokédex móvil que consume PokeAPI en tiempo real.",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#55638A",
+  "theme_color": "#C83A2C",
+  "icons": [
+    { "src": "icons/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#C83A2C">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Pokédex">
+  <meta name="description" content="Pokédex móvil que consume PokeAPI en tiempo real.">
+  <title>Pokédex móvil</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icons/icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://pokeapi.co">
+  <link rel="preconnect" href="https://raw.githubusercontent.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;800&family=Press+Start+2P&display=swap">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ============ VISTA PRINCIPAL: CAJAS ============ -->
+  <main id="view-main" class="view view-main">
+    <header class="topbar">
+      <h1 class="topbar__title">POKÉDEX</h1>
+      <div class="net" id="net-status" role="status" aria-live="polite">
+        <span class="net__dot" aria-hidden="true"></span>
+        <span class="net__label">ONLINE</span>
+      </div>
+    </header>
+
+    <form class="search" id="search-form" role="search" autocomplete="off">
+      <label class="search__box">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6E1E16" stroke-width="3" stroke-linecap="square" aria-hidden="true"><circle cx="10" cy="10" r="6"/><path d="M15 15l6 6"/></svg>
+        <input id="search-input" class="search__input" type="search" inputmode="search" enterkeyhint="search"
+               placeholder="Buscar por nombre o #id" aria-label="Buscar por nombre o número"
+               autocapitalize="none" autocorrect="off" spellcheck="false">
+        <button type="button" id="search-clear" class="search__clear" aria-label="Limpiar búsqueda" hidden>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2B2B2B" stroke-width="4" stroke-linecap="square" aria-hidden="true"><path d="M4 4l16 16M20 4L4 20"/></svg>
+        </button>
+      </label>
+    </form>
+
+    <div class="offline-banner" id="offline-banner" role="status" hidden>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2B2B2B" stroke-width="3" stroke-linecap="square" aria-hidden="true"><path d="M3 9a14 14 0 0 1 6-3M21 9a14 14 0 0 0-5-3M6 13a9 9 0 0 1 4-2M18 13a9 9 0 0 0-2-2M10 17a4 4 0 0 1 4 0M12 21h.01M3 3l18 18"/></svg>
+      <span>Sin conexión. Mostrando datos guardados</span>
+    </div>
+
+    <div class="main-body">
+      <!-- Panel del Pokémon seleccionado -->
+      <section class="selected" id="selected" aria-label="Pokémon seleccionado" aria-live="polite">
+        <div class="selected__sprite">
+          <img id="sel-img" alt="" width="78" height="78" class="pixel">
+        </div>
+        <div class="selected__info" id="sel-info">
+          <span class="selected__tag">INFO PKMN</span>
+          <span class="selected__name" id="sel-name"></span>
+          <span class="selected__num" id="sel-num"></span>
+          <div class="types" id="sel-types"></div>
+        </div>
+        <button type="button" class="detail-btn" id="sel-detail" disabled>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="square" aria-hidden="true"><path d="M3 12h17M13 5l7 7-7 7"/></svg>
+          <span>VER DETALLE</span>
+        </button>
+      </section>
+
+      <!-- Área de cajas (PC) -->
+      <div class="pc">
+        <div class="pc__inner">
+          <div class="pc__scroll" id="pc-scroll">
+            <div class="pc__content" id="pc-content"></div>
+          </div>
+          <div class="pc__track" aria-hidden="true"><div class="pc__thumb" id="pc-thumb"></div></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ============ VISTA DE DETALLE ============ -->
+  <section id="view-detail" class="view view-detail" hidden aria-label="Detalle del Pokémon">
+    <header class="topbar topbar--detail">
+      <button type="button" class="back-btn" id="back-btn" aria-label="Volver a las cajas">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="square" aria-hidden="true"><path d="M21 12H4M11 5l-7 7 7 7"/></svg>
+      </button>
+      <h1 class="topbar__title topbar__title--sm">POKÉDEX</h1>
+      <span class="topbar__chip" id="det-chip">No. ---</span>
+    </header>
+    <div class="detail-body" id="detail-body"></div>
+  </section>
+
+  <template id="tpl-cell">
+    <button type="button" class="cell">
+      <img alt="" width="96" height="96" class="pixel" loading="lazy" decoding="async">
+      <span class="cell__num"></span>
+    </button>
+  </template>
+
+  <script src="js/data.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
